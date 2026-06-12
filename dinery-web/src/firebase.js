@@ -1,20 +1,21 @@
-// src/firebase.js
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getStorage } from 'firebase/storage';
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDD_z6ttWXWXaWvnU6j3Q4EppN37DdUmuA",
-  authDomain: "dinery-9c261.firebaseapp.com",
-  projectId: "dinery-9c261",
-  databaseURL:"https://dinery-9c261-default-rtdb.firebaseio.com/",
-  storageBucket: "dinery-9c261.firebasestorage.app",
-  messagingSenderId: "1090174647446",
-  appId: "1:1090174647446:web:35b79590cc01403e13d6b7",
-  measurementId: "G-DC3WWMRYYX"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
+
 const app = initializeApp(firebaseConfig);
+
 export const auth = getAuth(app);
 export const firestore = getFirestore(app);
-export const storage = getStorage(app); 
+export const storage = getStorage(app);
+
+export default app;

@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, firestore } from "./firebase";
 import { AnimatePresence } from "framer-motion";
+
 import Login from "./authentication/Login";
+import Register from "./authentication/Register";
+
 import MainDashboard from "./components/MainDashboard";
 import SuperAdminDashboard from "./components/SuperAdmin/SuperAdminDashboard";
 import PublicReservationPage from "./components/ReservationLinks/Publicreservationpage";
-import dineryLogo from "./assets/dinery-logo.png";
 import ManageReservationPage from "./components/ReservationLinks/ManageReservationPage";
-console.log('=== ENVIRONMENT VARIABLES TEST ===');
-console.log('Growth Price ID:', import.meta.env.VITE_STRIPE_GROWTH_PRICE_ID);
-console.log('Professional Price ID:', import.meta.env.VITE_STRIPE_PROFESSIONAL_PRICE_ID);
-console.log('All env vars:', import.meta.env);
-console.log('===================================');
+
+import dineryLogo from "./assets/dinery-logo.png";
 
 function AnimatedRoutes({ user, role }) {
   const location = useLocation();
@@ -22,20 +27,23 @@ function AnimatedRoutes({ user, role }) {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-
+        {/* PUBLIC ROUTES */}
         <Route path="/reserve/:restaurantId" element={<PublicReservationPage />} />
         <Route path="/manage-reservation/:reservationId" element={<ManageReservationPage />} />
 
-        {/* ── AUTH ROUTES ── */}
+        {/* AUTH ROUTES */}
         {!user && (
           <>
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </>
         )}
+
+        {/* LOGGED IN ROUTES */}
         {user && (
           <>
-            {role === "Admin" ? (
+            {role?.toLowerCase() === "admin" ? (
               <Route path="/*" element={<SuperAdminDashboard />} />
             ) : (
               <Route path="/*" element={<MainDashboard />} />
