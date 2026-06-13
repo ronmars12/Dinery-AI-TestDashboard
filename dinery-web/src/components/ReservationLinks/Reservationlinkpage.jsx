@@ -657,7 +657,7 @@ const generateTimeSlotsForSelectedDate = () => {
     if (process.env.NODE_ENV === 'development') {
       return 'http://localhost:5173';
     }
-    return 'https://dinery-ai.netlify.app';
+    return 'dineryai-test.netlify.app';
   };
 
   const reservationUrl = `${getBaseUrl()}/reserve/${encodeURIComponent(restaurantId || 'demo')}`;
